@@ -1,0 +1,355 @@
+/* ═══════════════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════════════ */
+.carousel-section {
+  padding: 120px 0 100px;
+  background: var(--bg-main);
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.carousel-section__header {
+  text-align: center;
+  margin-bottom: 60px;
+  padding: 0 24px;
+}
+
+.carousel-section__label {
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.carousel-section__title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: #fff;
+  text-shadow: 0 0 40px rgba(255, 97, 166, 0.3);
+  margin-bottom: 12px;
+}
+
+.carousel-section__sub {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════
+   CAROUSEL TRACK
+═══════════════════════════════════════════ */
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 40px 0 60px;
+  position: relative;
+}
+
+.card-placeholder {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   CARD WRAPPER — position-based scale/opacity
+   --pos: -2 | -1 | 0 | 1 | 2
+═══════════════════════════════════════════ */
+.card-wrapper {
+  flex-shrink: 0;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s;
+  cursor: pointer;
+  /* Overlap cards slightly */
+  margin: 0 -10px;
+}
+
+/* Center card */
+.card-wrapper--center {
+  transform: scale(1) translateY(0px);
+  opacity: 1;
+  z-index: 10;
+  margin: 0 20px;
+}
+
+/* ±1 cards */
+.card-wrapper--pos-n1,
+.card-wrapper--pos-p1 {
+  transform: scale(0.82) translateY(20px);
+  opacity: 0.65;
+  z-index: 5;
+}
+
+/* ±2 cards */
+.card-wrapper--pos-n2,
+.card-wrapper--pos-p2 {
+  transform: scale(0.65) translateY(40px);
+  opacity: 0.35;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════
+   3D FLIP MECHANISM
+   ─────────────────────────────────────────
+   Step 1: .card-scene
+     - Sets perspective: the "camera distance" from the viewer.
+       A smaller value = more dramatic 3D distortion.
+       1000px is a natural, readable depth.
+
+   Step 2: .card
+     - transform-style: preserve-3d
+       This tells the browser: "my children exist in 3D space,
+       don't flatten them into a 2D plane."
+     - transition: transform 0.7s → smooth rotation
+     - When .card--flipped is added → rotateY(180deg)
+
+   Step 3: .card__face (shared by front & back)
+     - position: absolute, width/height: 100%
+       Both faces occupy the same space.
+     - backface-visibility: hidden
+       When a face is rotated >90deg away from the viewer,
+       it becomes invisible. This is what makes the flip work —
+       the front hides as it rotates past 90deg, and the back
+       (which was already hidden) becomes visible.
+
+   Step 4: .card__back
+     - transform: rotateY(180deg)
+       Pre-rotated so it starts facing away from the viewer.
+       When the parent flips 180deg, this face ends up at 0deg
+       (facing the viewer) while the front is now at 180deg (hidden).
+═══════════════════════════════════════════ */
+
+/* Step 1 — perspective container */
+.card-scene {
+  width: 280px;
+  height: 380px;
+  perspective: 1000px; /* camera distance */
+}
+
+/* Step 2 — the flippable element */
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;          /* children live in 3D */
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.card--flipped {
+  transform: rotateY(180deg);            /* flip! */
+}
+
+/* Step 3 — shared face styles */
+.card__face {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  backface-visibility: hidden;           /* hide when facing away */
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* Step 4 — back face pre-rotated */
+.card__back {
+  transform: rotateY(180deg);            /* starts facing away */
+}
+
+/* ═══════════════════════════════════════════
+   CARD FRONT STYLES
+═══════════════════════════════════════════ */
+.card__front {
+  background:
+    radial-gradient(ellipse at top, #2D0B5A 0%, #1A0B2E 60%),
+    linear-gradient(135deg, #1E0F35, #0D0618);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  text-align: center;
+  gap: 16px;
+}
+
+.card__front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,97,166,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.card__category {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.card__glyph {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 12px rgba(255, 97, 166, 0.6));
+}
+
+.card__question {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+}
+
+.card__hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-top: auto;
+}
+
+/* ═══════════════════════════════════════════
+   CARD BACK STYLES
+═══════════════════════════════════════════ */
+.card__back {
+  background:
+    radial-gradient(ellipse at bottom, #1A3A6B 0%, #0D0618 70%);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px;
+  gap: 12px;
+}
+
+.card__category--back {
+  align-self: flex-start;
+  background: rgba(255, 97, 166, 0.1);
+  border-color: rgba(255, 97, 166, 0.3);
+  color: var(--pink);
+}
+
+.card__results {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  justify-content: center;
+}
+
+.card__result-item { display: flex; flex-direction: column; gap: 5px; }
+
+.card__result-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text);
+}
+
+.card__result-pct {
+  color: var(--pink);
+  font-weight: 600;
+}
+
+/* Progress bar */
+.card__bar-track {
+  height: 5px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.card__bar-fill {
+  height: 100%;
+  width: var(--pct);
+  background: linear-gradient(90deg, var(--pink), var(--gold));
+  border-radius: 3px;
+  animation: barGrow 0.8s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  box-shadow: 0 0 8px rgba(255, 97, 166, 0.5);
+}
+
+@keyframes barGrow {
+  from { width: 0; }
+  to   { width: var(--pct); }
+}
+
+/* ═══════════════════════════════════════════
+   CONTROLS
+═══════════════════════════════════════════ */
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.carousel__arrow {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text);
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel__arrow:hover:not(:disabled) {
+  border-color: var(--pink);
+  color: var(--pink);
+  box-shadow: 0 0 20px rgba(255, 97, 166, 0.3);
+}
+
+.carousel__arrow:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.carousel__dots {
+  display: flex;
+  gap: 8px;
+}
+
+.carousel__dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+
+.carousel__dot--active {
+  background: var(--pink);
+  box-shadow: 0 0 10px rgba(255, 97, 166, 0.6);
+  transform: scale(1.3);
+}
+
+@media (max-width: 900px) {
+  .card-wrapper--pos-n2,
+  .card-wrapper--pos-p2 { display: none; }
+  .card-scene { width: 260px; height: 360px; }
+}
+
+@media (max-width: 600px) {
+  .card-wrapper--pos-n1,
+  .card-wrapper--pos-p1 { display: none; }
+}

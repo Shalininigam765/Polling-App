@@ -1,0 +1,267 @@
+/* ═══════════════════════════════════════════
+   LOGIN PAGE — MYTHOS POLLS
+═══════════════════════════════════════════ */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, #2D0B5A 0%, transparent 70%),
+    linear-gradient(180deg, #0D0618 0%, #1A0B2E 50%, #0D0618 100%);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ── Background orbs (same as Hero) ── */
+.login-page__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.3;
+  animation: loginOrbFloat 9s ease-in-out infinite;
+  pointer-events: none;
+}
+.login-page__orb--1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #7B2FBE, transparent 70%);
+  top: -120px; left: -120px;
+  animation-delay: 0s;
+}
+.login-page__orb--2 {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, #FF61A6, transparent 70%);
+  bottom: -80px; right: -80px;
+  animation-delay: -4s;
+}
+.login-page__orb--3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, #1A3A6B, transparent 70%);
+  top: 50%; left: 60%;
+  animation-delay: -7s;
+}
+
+@keyframes loginOrbFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-24px) scale(1.04); }
+}
+
+/* ── Floating particles ── */
+.login-page__particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: #FFD700;
+  opacity: 0;
+  left: calc(var(--i) * 6.25%);
+  bottom: -6px;
+  pointer-events: none;
+  animation: loginParticleRise calc(5s + var(--i) * 0.25s) ease-in infinite;
+  animation-delay: calc(var(--i) * 0.5s);
+}
+
+@keyframes loginParticleRise {
+  0%   { opacity: 0; transform: translateY(0); }
+  20%  { opacity: 0.7; }
+  80%  { opacity: 0.2; }
+  100% { opacity: 0; transform: translateY(-100vh); }
+}
+
+/* ═══════════════════════════════════════════
+   CARD
+═══════════════════════════════════════════ */
+.login-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 24px;
+  background: rgba(26, 11, 46, 0.75);
+  border: 1px solid rgba(255, 97, 166, 0.2);
+  border-radius: 20px;
+  padding: 48px 40px 40px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 0 1px rgba(255, 97, 166, 0.05),
+    0 25px 60px rgba(0, 0, 0, 0.5),
+    0 0 80px rgba(123, 47, 190, 0.15);
+  animation: cardReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(32px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Top glyph */
+.login-container::before {
+  content: '⛩';
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+}
+
+/* ── Heading ── */
+.login-container h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(255, 97, 166, 0.4);
+}
+
+/* Decorative divider under heading */
+.login-container h2::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--pink, #FF61A6), var(--gold, #FFD700));
+  margin: 12px auto 28px;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(255, 97, 166, 0.5);
+}
+
+/* ═══════════════════════════════════════════
+   FORM
+═══════════════════════════════════════════ */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* ── Labels ── */
+.login-form label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #9B8AAE;
+}
+
+/* ── Inputs ── */
+.login-form input {
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 97, 166, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+  box-sizing: border-box;
+}
+
+.login-form input::placeholder { color: rgba(255,255,255,0.18); }
+
+.login-form input:focus {
+  border-color: #FF61A6;
+  background: rgba(255, 97, 166, 0.06);
+  box-shadow:
+    0 0 0 3px rgba(255, 97, 166, 0.12),
+    0 0 20px rgba(255, 97, 166, 0.15);
+}
+
+.login-form input:hover:not(:focus) {
+  border-color: rgba(255, 97, 166, 0.4);
+}
+
+/* ── Submit button ── */
+.login-form button[type='submit'] {
+  margin-top: 8px;
+  padding: 14px;
+  background: linear-gradient(135deg, #FF61A6, #c0457a);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow:
+    0 0 30px rgba(255, 97, 166, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.login-form button[type='submit']:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 50px rgba(255, 97, 166, 0.6),
+    0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.login-form button[type='submit']:active {
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER LINKS
+═══════════════════════════════════════════ */
+.signup-link {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.83rem;
+  color: #7B6A8E;
+}
+
+.signup-link a {
+  color: #FF61A6;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+.signup-link a:hover {
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* ── Back to Home button ── */
+.login-container > button:not([type]) {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #7B6A8E;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.login-container > button:not([type]):hover {
+  border-color: #FFD700;
+  color: #FFD700;
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.15);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .login-container { padding: 36px 24px 32px; }
+  .login-container h2 { font-size: 1.15rem; }
+}

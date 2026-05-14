@@ -1,0 +1,181 @@
+.security {
+  padding: 120px 60px;
+  background: linear-gradient(180deg, var(--bg-main) 0%, var(--bg-deep) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.security::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue-neon), transparent);
+}
+
+.security__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* ── Shield graphic ── */
+.security__left {
+  display: flex;
+  justify-content: center;
+}
+
+.security__shield {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.security__shield-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123, 94, 167, 0.3) 0%, transparent 70%);
+  animation: shieldPulse 3s ease-in-out infinite;
+}
+
+@keyframes shieldPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.1); opacity: 1; }
+}
+
+.security__shield-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed;
+  animation: ringRotate 15s linear infinite;
+}
+
+.security__shield-ring--1 {
+  width: 100%; height: 100%;
+  border-color: rgba(123, 94, 167, 0.3);
+}
+.security__shield-ring--2 {
+  width: 75%; height: 75%;
+  border-color: rgba(255, 215, 0, 0.2);
+  animation-direction: reverse;
+  animation-duration: 10s;
+}
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.security__shield-icon {
+  position: relative;
+  z-index: 2;
+  font-size: 5rem;
+  filter: drop-shadow(0 0 20px rgba(123, 94, 167, 0.8));
+}
+
+.security__shield-label {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-head);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: var(--gold);
+  text-shadow: 0 0 10px var(--gold);
+}
+
+/* ── Right content ── */
+.security__label {
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+.security__heading {
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+
+.security__heading--accent {
+  color: var(--blue-neon);
+  text-shadow: 0 0 20px rgba(123, 94, 167, 0.7);
+}
+
+.security__desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 36px;
+  max-width: 440px;
+}
+
+.security__pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.security__pillar {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(123, 94, 167, 0.2);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.security__pillar:hover {
+  border-color: rgba(123, 94, 167, 0.5);
+  background: rgba(123, 94, 167, 0.07);
+}
+
+.security__pillar-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+.security__pillar strong {
+  display: block;
+  color: #fff;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+.security__pillar p {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+/* ── Footer strip ── */
+.security::after {
+  content: '⛩  MYTHOS POLLS  ·  REAL-TIME  ·  SECURE  ·  COMMUNITY  ⛩';
+  display: block;
+  text-align: center;
+  font-family: var(--font-head);
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  color: var(--text-muted);
+  padding-top: 80px;
+  opacity: 0.5;
+}
+
+@media (max-width: 900px) {
+  .security { padding: 80px 24px; }
+  .security__inner { grid-template-columns: 1fr; gap: 60px; }
+  .security__pillars { grid-template-columns: 1fr; }
+}
