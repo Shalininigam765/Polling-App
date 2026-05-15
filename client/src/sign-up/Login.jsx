@@ -1,16 +1,36 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Login.css';
 
-function Login( {navigateTo} ) {
+function Login( {navigateTo, setUser} ) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         // Placeholder for authentication logic
-        // Simulate successful login and navigate to home
-        navigateTo('dashboard');
+        try {
+            const response = await axios.post("http://localhost:8080/api/v1/users/login", { 
+                email, 
+                password 
+            }, {
+                withCredentials: true
+            });
+
+            console.log("Login Successful:", response.data);
+            setUser(response.data.user);
+
+            // Simulate successful login and navigate to home
+            navigateTo('dashboard');
+        }
+        catch (error) {
+            console.error("Login Failed:", err);
+            // Display the error message from your backend
+            setError(err.response?.data?.message || 'Login failed. Try again.');
+        }
     }
 
     return (
@@ -24,6 +44,7 @@ function Login( {navigateTo} ) {
 
         <div className="login-container">
             <h2>Welcome Back to Mythos Polls</h2>
+            {error && <p className="error-message">{error}</p>}
             <form className="login-form" onSubmit={handleSubmit}> 
                 <div>
                     <label>Email</label>

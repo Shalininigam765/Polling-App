@@ -1,15 +1,44 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 function Register( {navigateTo} ) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
 
-    const handleSubmit = (e) => {
+    const [isError, setIsError] = useState(false);
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessage('');
+        setIsError(false);
+
         // Placeholder for authentication logic
-        // Simulate successful login and navigate to home
-        navigateTo('dashboard');
+        try{
+            const response = await axios.post("http://localhost:8080/api/v1/users/register", {
+                email,
+                password,
+                username
+            });
+
+            console.log("Registration Success:", response.data);
+            setIsError(false);
+            setMessage('Registration successful! Please log in.');
+
+            // Simulate successful login and navigate to home
+            setTimeout(() => {
+                navigateTo('login');
+            }, 2000);
+
+        }
+        catch (err) {
+            console.error("Registration Failed:", err);
+            setIsError(true);
+            setMessage(err.response?.data?.message || 'Registration failed. Try again.');
+        }
+        
     }
 
     return (
@@ -22,7 +51,8 @@ function Register( {navigateTo} ) {
           ))}
 
         <div className="login-container">
-            <h2>Welcome to Mythos Polls</h2>
+            <h2>Create an Account!!</h2>
+            {message && <p className={isError ? "error-message" : "success-message"}>{message}</p>}
             <form className="login-form" onSubmit={handleSubmit}> 
                 <div>
                     <label>Email</label>
@@ -30,15 +60,6 @@ function Register( {navigateTo} ) {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
@@ -51,6 +72,16 @@ function Register( {navigateTo} ) {
                         required
                     />
                 </div>
+                <div>
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                
                 <button type="submit">Register</button>
 
             </form>

@@ -11,6 +11,8 @@ export default function App() {
 
   const [currentPage, setCurrentPage] = useState('home');
 
+  const [user, setUser] = useState(null);
+
   //function to change the page
   const navigateTo = (pageName) => {
     setCurrentPage(pageName);
@@ -21,14 +23,14 @@ export default function App() {
       {/* Conditional Rendering: Only show the component that matches the state */}
       {currentPage === 'home' && (
       <>
-        <Hero navigateTo={navigateTo}/>
-        <Navbar navigateTo={navigateTo}/>
+        <Hero navigateTo={navigateTo} />
+        <Navbar navigateTo={navigateTo} user={user} setUser={setUser}  />
         <Features />
         <PollCarousel />
         <Security />
       </>)
       }
-      {currentPage === 'login' && <Login navigateTo={navigateTo} />}
+      {currentPage === 'login' && <Login navigateTo={navigateTo} user={user} setUser={setUser} />}
       {currentPage === 'signup' && <Register navigateTo={navigateTo} />}
       
     </div>
