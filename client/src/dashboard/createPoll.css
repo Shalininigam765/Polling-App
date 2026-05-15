@@ -1,0 +1,356 @@
+/* ═══════════════════════════════════════════
+   CREATE POLL PAGE — MYTHOS POLLS
+═══════════════════════════════════════════ */
+
+.create-poll-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, #2D0B5A 0%, transparent 70%),
+    linear-gradient(180deg, #0D0618 0%, #1A0B2E 50%, #0D0618 100%);
+  font-family: 'Inter', system-ui, sans-serif;
+  padding: 40px 24px;
+}
+
+/* ── Background orbs ── */
+.create-poll-page__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.3;
+  animation: pollOrbFloat 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.create-poll-page__orb--1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #7B2FBE, transparent 70%);
+  top: -120px; left: -120px;
+  animation-delay: 0s;
+}
+
+.create-poll-page__orb--2 {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, #FF61A6, transparent 70%);
+  bottom: -80px; right: -80px;
+  animation-delay: -4s;
+}
+
+.create-poll-page__orb--3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, #1A3A6B, transparent 70%);
+  top: 50%; left: 60%;
+  animation-delay: -7s;
+}
+
+@keyframes pollOrbFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-24px) scale(1.04); }
+}
+
+/* ── Floating particles ── */
+.create-poll-page__particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: #FFD700;
+  opacity: 0;
+  left: calc(var(--i) * 6.25%);
+  bottom: -6px;
+  pointer-events: none;
+  animation: pollParticleRise calc(5s + var(--i) * 0.25s) ease-in infinite;
+  animation-delay: calc(var(--i) * 0.5s);
+}
+
+@keyframes pollParticleRise {
+  0%   { opacity: 0; transform: translateY(0); }
+  20%  { opacity: 0.7; }
+  80%  { opacity: 0.2; }
+  100% { opacity: 0; transform: translateY(-100vh); }
+}
+
+/* ═══════════════════════════════════════════
+   CONTAINER
+═══════════════════════════════════════════ */
+.create-poll-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  background: rgba(26, 11, 46, 0.75);
+  border: 1px solid rgba(255, 97, 166, 0.2);
+  border-radius: 20px;
+  padding: 48px 40px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 0 1px rgba(255, 97, 166, 0.05),
+    0 25px 60px rgba(0, 0, 0, 0.5),
+    0 0 80px rgba(123, 47, 190, 0.15);
+  animation: pollCardReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes pollCardReveal {
+  from { opacity: 0; transform: translateY(32px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Heading ── */
+.create-poll-container h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(255, 97, 166, 0.4);
+}
+
+.create-poll-container h2::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, #FF61A6, #FFD700);
+  margin: 12px auto 28px;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(255, 97, 166, 0.5);
+}
+
+/* ═══════════════════════════════════════════
+   FORM
+═══════════════════════════════════════════ */
+.create-poll-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.create-poll-form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Labels ── */
+.create-poll-form label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #9B8AAE;
+}
+
+/* ── Inputs ── */
+.create-poll-form input[type='text'],
+.create-poll-form input[type='email'] {
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 97, 166, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+.create-poll-form input[type='text']::placeholder,
+.create-poll-form input[type='email']::placeholder {
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.create-poll-form input[type='text']:focus,
+.create-poll-form input[type='email']:focus {
+  border-color: #FF61A6;
+  background: rgba(255, 97, 166, 0.06);
+  box-shadow:
+    0 0 0 3px rgba(255, 97, 166, 0.12),
+    0 0 20px rgba(255, 97, 166, 0.15);
+}
+
+.create-poll-form input[type='text']:hover:not(:focus),
+.create-poll-form input[type='email']:hover:not(:focus) {
+  border-color: rgba(255, 97, 166, 0.4);
+}
+
+/* ── Checkbox ── */
+.auth-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 97, 166, 0.05);
+  border: 1px solid rgba(255, 97, 166, 0.15);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.auth-option label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text, #D4C5E8);
+  cursor: pointer;
+  margin: 0;
+}
+
+.auth-option input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #FF61A6;
+}
+
+/* ── Buttons ── */
+.create-poll-form button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  outline: none;
+}
+
+.create-poll-form button[type='submit'] {
+  background: linear-gradient(135deg, #FF61A6, #c0457a);
+  color: #fff;
+  margin-top: 12px;
+  box-shadow: 0 0 20px rgba(255, 97, 166, 0.3);
+}
+
+.create-poll-form button[type='submit']:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(255, 97, 166, 0.5);
+}
+
+.create-poll-form button[type='submit']:active {
+  transform: translateY(0);
+}
+
+.create-poll-form button[type='button'] {
+  background: transparent;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--text, #D4C5E8);
+  transition: border-color 0.3s, background 0.3s;
+  margin-top: 8px;
+}
+
+.create-poll-form button[type='button']:hover {
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.08);
+}
+
+/* ═══════════════════════════════════════════
+   MESSAGES
+═══════════════════════════════════════════ */
+.error-message {
+  color: #FF6B6B;
+  font-size: 0.85rem;
+  padding: 12px;
+  background: rgba(255, 107, 107, 0.1);
+  border-left: 3px solid #FF6B6B;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.success-message {
+  color: #51CF66;
+  font-size: 0.85rem;
+  padding: 12px;
+  background: rgba(81, 207, 102, 0.1);
+  border-left: 3px solid #51CF66;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+/* ═══════════════════════════════════════════
+   GENERATED LINK
+═══════════════════════════════════════════ */
+.generateLink {
+  margin-top: 32px;
+  padding: 20px;
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.generateLink p {
+  color: #FFD700;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.generateLink input {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.generateLink button {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #FFD700, #b89a00);
+  color: #0D0618;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.generateLink button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+}
+
+@media (max-width: 480px) {
+  .create-poll-container {
+    max-width: 100%;
+    padding: 32px 24px;
+  }
+
+  .create-poll-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .create-poll-form {
+    gap: 16px;
+  }
+
+  .create-poll-form input[type='text'],
+  .create-poll-form input[type='email'] {
+    padding: 11px 12px;
+    font-size: 0.88rem;
+  }
+}

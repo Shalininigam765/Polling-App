@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import './dashboard.css';
 
 
 const socket = io('http://localhost:8080');
@@ -48,31 +49,51 @@ function Dashboard({navigateTo}) {
     }, [])
 
     if (loading) {
-        return <p> Loading polls...</p>
+        return (
+            <div className="dashboard-page">
+                <div className="dashboard-loading">
+                    <p>Loading polls...</p>
+                </div>
+            </div>
+        )
     }
 
     return (
-        <div className='dashboard-container'>
-            <h1>Mythos Poll Dashboard</h1>
-            <p> View all your polls here </p>
+        <div className='dashboard-page'>
+            <div className="dashboard-page__orb dashboard-page__orb--1" />
+            <div className="dashboard-page__orb dashboard-page__orb--2" />
+            
+            <div className='dashboard-container'>
+                <h1>Mythos Poll Dashboard</h1>
+                <p>View all your polls here</p>
 
-            {polls.length === 0? (
-                <p> No polls created yet.</p>
-            ): (
-                polls.map((poll) => (
-                    <div key={poll._id} className='poll-card'>
-                        <h3> {poll.question}</h3>
-                        <p> Total options : {poll.options.length}</p>
-                        <p> Requires Login : {poll.requiresAuth? 'Yes' : 'No'}</p>
-
-                        <button onClick={() => navigator.clipboard.writeText(`http://localhost:5173/vote/${poll.shareId}`)}>
-                            Copy poll link
-                        </button>
+                {polls.length === 0? (
+                    <div className="dashboard-empty">
+                        <p>No polls created yet.</p>
                     </div>
-                ))
-            )}
+                ): (
+                    <div className="polls-grid">
+                        {polls.map((poll) => (
+                            <div key={poll._id} className='poll-card'>
+                                <h3>{poll.question}</h3>
+                                <p><strong>Total Options:</strong> {poll.options.length}</p>
+                                {poll.requiresAuth && <div className="poll-card-auth">Requires Login</div>}
 
-            <button onClick={navigateTo('createPoll')}></button>
+                                <div className="poll-card-actions">
+                                    <button onClick={() => navigator.clipboard.writeText(`http://localhost:5173/vote/${poll.shareId}`)}>
+                                        Copy link
+                                    </button>
+                                    <button onClick={() => navigateTo(`vote/${poll.shareId}`)}>
+                                        View Poll
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                <button className="create-poll-btn" onClick={() => navigateTo('createPoll')}>+</button>
+            </div>
         </div>
     )
 }

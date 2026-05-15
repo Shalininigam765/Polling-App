@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import './createPoll.css';
 
 function CreatePoll ({navigateTo}) {
     const [question, setQuestion] = useState('')
@@ -47,63 +48,71 @@ function CreatePoll ({navigateTo}) {
             }
         }
         catch (err) {
-            setErrorMessage("Something went wrong while connecting to the server.");
+            setError("Something went wrong while connecting to the server.");
         }
     }
 
     return (
-        <div className="create-poll-container">
-            <h2>Create a New Poll</h2>
-            {error && <p className="error-message">{error}</p>}
+        <div className="create-poll-page">
+            <div className="create-poll-page__orb create-poll-page__orb--1" />
+            <div className="create-poll-page__orb create-poll-page__orb--2" />
+            <div className="create-poll-page__orb create-poll-page__orb--3" />
+            {Array.from({ length: 16 }).map((_, i) => (
+                <span key={i} className="create-poll-page__particle" style={{ '--i': i }} />
+            ))}
 
-            <form onSubmit={handleCreatePoll}>
-                <div>
-                    <label> Your Question </label>
-                    <input 
-                        type="text"
-                        value={question}
-                        onChange={(e) => setQuestion(e.target.value)}
-                        required
-                    />
-                </div>
+            <div className="create-poll-container">
+                <h2>Create a New Poll</h2>
+                {error && <p className="error-message">{error}</p>}
 
-                <div>
-                    <label> Options </label>
-                    {options.map((option, index) => (
-                        <input
-                            key={index}
+                <form className="create-poll-form" onSubmit={handleCreatePoll}>
+                    <div>
+                        <label> Your Question </label>
+                        <input 
                             type="text"
-                            value={option}
-                            onChange={(e) => setOptions(e.target.value)}
+                            value={question}
+                            onChange={(e) => setQuestion(e.target.value)}
                             required
                         />
-                    ))}
-                    <button type="button" onClick={handleAddOption}>Add another Option</button>
-                </div>
+                    </div>
 
-                <div className="auth-option">
-                    <label>
-                        <input 
-                        type="checkbox" 
-                        checked={requiresAuth} 
-                        onChange={(e) => setRequiresAuth(e.target.checked)} 
-                        />
-                        Require voters to be logged in
-                    </label>
-                </div>
+                    <div>
+                        <label> Options </label>
+                        {options.map((option, index) => (
+                            <input
+                                key={index}
+                                type="text"
+                                value={option}
+                                onChange={(e) => handleOptionChange(index, e.target.value)}
+                                required
+                            />
+                        ))}
+                        <button type="button" onClick={handleAddOption}>Add another Option</button>
+                    </div>
 
-                <button type='submit'> Create Poll </button>
-            </form>
+                    <div className="auth-option">
+                        <label>
+                            <input 
+                            type="checkbox" 
+                            checked={requiresAuth} 
+                            onChange={(e) => setRequiresAuth(e.target.checked)} 
+                            />
+                            Require voters to be logged in
+                        </label>
+                    </div>
 
-            {generatedLink && (
-                <div className='generateLink' >
-                    <p>Poll created successfully!! Share this link:</p>
-                    <a href={generatedLink} target='_blank'> {generatedLink} </a>
-                </div>
-            )}
+                    <button type='submit'> Create Poll </button>
+                </form>
 
+                {generatedLink && (
+                    <div className='generateLink' >
+                        <p>Poll created successfully!! Share this link:</p>
+                        <a href={generatedLink} target='_blank'> {generatedLink} </a>
+                    </div>
+                )}
+
+            </div>
         </div>
-            
     )
 }
 

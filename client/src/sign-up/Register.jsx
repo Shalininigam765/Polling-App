@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './Register.css';
 
 
 function Register( {navigateTo} ) {
@@ -42,18 +43,18 @@ function Register( {navigateTo} ) {
     }
 
     return (
-        <div className="login-page">
-          <div className="login-page__orb login-page__orb--1" />
-          <div className="login-page__orb login-page__orb--2" />
-          <div className="login-page__orb login-page__orb--3" />
+        <div className="register-page">
+          <div className="register-page__orb register-page__orb--1" />
+          <div className="register-page__orb register-page__orb--2" />
+          <div className="register-page__orb register-page__orb--3" />
           {Array.from({ length: 16 }).map((_, i) => (
-            <span key={i} className="login-page__particle" style={{ '--i': i }} />
+            <span key={i} className="register-page__particle" style={{ '--i': i }} />
           ))}
 
-        <div className="login-container">
+        <div className="register-container">
             <h2>Create an Account!!</h2>
             {message && <p className={isError ? "error-message" : "success-message"}>{message}</p>}
-            <form className="login-form" onSubmit={handleSubmit}> 
+            <form className="register-form" onSubmit={handleSubmit}> 
                 <div>
                     <label>Email</label>
                     <input 

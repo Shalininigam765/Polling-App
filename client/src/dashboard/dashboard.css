@@ -1,0 +1,309 @@
+/* ═══════════════════════════════════════════
+   DASHBOARD PAGE — MYTHOS POLLS
+═══════════════════════════════════════════ */
+
+.dashboard-page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, #2D0B5A 0%, transparent 70%),
+    linear-gradient(180deg, #0D0618 0%, #1A0B2E 50%, #0D0618 100%);
+  font-family: 'Inter', system-ui, sans-serif;
+  padding-top: 100px;
+  padding-bottom: 60px;
+}
+
+/* ── Background orbs ── */
+.dashboard-page__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dashboard-page__orb--1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #7B2FBE, transparent 70%);
+  top: 0; left: -100px;
+}
+
+.dashboard-page__orb--2 {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, #FF61A6, transparent 70%);
+  top: 50%; right: -80px;
+}
+
+/* ═══════════════════════════════════════════
+   DASHBOARD CONTAINER
+═══════════════════════════════════════════ */
+.dashboard-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ── Header ── */
+.dashboard-container h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+  text-shadow: 0 0 30px rgba(255, 97, 166, 0.3);
+}
+
+.dashboard-container > p {
+  font-size: 0.95rem;
+  color: var(--text-muted, #7B6A8E);
+  margin-bottom: 40px;
+  letter-spacing: 0.5px;
+}
+
+/* ── Empty State ── */
+.dashboard-empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.dashboard-empty p {
+  font-size: 1rem;
+  color: var(--text-muted, #7B6A8E);
+  margin-bottom: 24px;
+}
+
+/* ═══════════════════════════════════════════
+   POLLS GRID
+═══════════════════════════════════════════ */
+.polls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* ── Poll Card ── */
+.poll-card {
+  position: relative;
+  background: rgba(30, 15, 53, 0.6);
+  border: 1px solid rgba(255, 97, 166, 0.2);
+  border-radius: 16px;
+  padding: 28px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.poll-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 97, 166, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.poll-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 97, 166, 0.4);
+  box-shadow: 0 12px 40px rgba(255, 97, 166, 0.2);
+}
+
+.poll-card:hover::before {
+  left: 100%;
+}
+
+.poll-card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.poll-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted, #7B6A8E);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.poll-card p strong {
+  color: #FFD700;
+  margin-right: 6px;
+}
+
+.poll-card-auth {
+  font-size: 0.8rem;
+  color: #FF61A6;
+  display: inline-block;
+  padding: 4px 8px;
+  background: rgba(255, 97, 166, 0.15);
+  border-radius: 4px;
+  margin-top: 12px;
+}
+
+/* ── Poll Card Buttons ── */
+.poll-card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 97, 166, 0.15);
+}
+
+.poll-card button {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.poll-card button:first-of-type {
+  background: linear-gradient(135deg, #FF61A6, #c0457a);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 97, 166, 0.3);
+}
+
+.poll-card button:first-of-type:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 97, 166, 0.5);
+}
+
+.poll-card button:last-of-type {
+  background: transparent;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--text, #D4C5E8);
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.poll-card button:last-of-type:hover {
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.08);
+}
+
+/* ═══════════════════════════════════════════
+   LOADING STATE
+═══════════════════════════════════════════ */
+.dashboard-loading {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.dashboard-loading p {
+  font-size: 0.95rem;
+  color: var(--text, #D4C5E8);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* ═══════════════════════════════════════════
+   CREATE BUTTON
+═══════════════════════════════════════════ */
+.create-poll-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF61A6, #c0457a);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(255, 97, 166, 0.4);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 50;
+}
+
+.create-poll-btn:hover {
+  transform: scale(1.1) translateY(-4px);
+  box-shadow: 0 0 40px rgba(255, 97, 166, 0.6);
+}
+
+.create-poll-btn:active {
+  transform: scale(0.95);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 0 24px;
+  }
+
+  .dashboard-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .polls-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .create-poll-btn {
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-page {
+    padding-top: 80px;
+  }
+
+  .dashboard-container {
+    padding: 0 16px;
+  }
+
+  .dashboard-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .poll-card {
+    padding: 20px;
+  }
+
+  .poll-card h3 {
+    font-size: 1rem;
+  }
+
+  .create-poll-btn {
+    bottom: 16px;
+    right: 16px;
+    width: 52px;
+    height: 52px;
+    font-size: 1.4rem;
+  }
+}

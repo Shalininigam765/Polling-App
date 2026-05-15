@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
+import './votingPage.css';
 
 const socket = io('http://localhost:8080');
 
@@ -81,51 +82,81 @@ function VotingPage() {
     };
 
     if (errorMessage && !poll) {
-        return <h2>{errorMessage}</h2>;
+        return (
+            <div className="voting-page">
+                <div className="voting-page__orb voting-page__orb--1" />
+                <div className="voting-page__orb voting-page__orb--2" />
+                <div className="voting-page__orb voting-page__orb--3" />
+                <div className="voting-page-container voting-page-error">
+                    <h2>{errorMessage}</h2>
+                </div>
+            </div>
+        );
     }
 
     if (!poll) {
-        return <p>Loading poll data...</p>;
+        return (
+            <div className="voting-page">
+                <div className="voting-page__orb voting-page__orb--1" />
+                <div className="voting-page__orb voting-page__orb--2" />
+                <div className="voting-page__orb voting-page__orb--3" />
+                <div className="voting-page-container voting-page-loading">
+                    <p>Loading poll data...</p>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div className='voting-page-container'>
-            <h2>{poll.question} </h2>
+        <div className="voting-page">
+            <div className="voting-page__orb voting-page__orb--1" />
+            <div className="voting-page__orb voting-page__orb--2" />
+            <div className="voting-page__orb voting-page__orb--3" />
 
-            {errorMessage && <p>{errorMessage}</p>}
-            {poll.requiresAuth && <p>(Requires Login)</p>}
+            <div className='voting-page-container'>
+                <h2>{poll.question}</h2>
 
-            <div>
-                {poll.options.map((option) => (
-                    <div key={option._id}>
-                        {!hasVoted && (
-                            <input 
-                                type="radio" 
-                                id={option._id}
-                                name="pollOption" 
-                                value={option._id}
-                                onChange={(e) => setSelectedOptionId(e.target.value)}
-                                style={{ marginRight: '10px' }}
-                            />
-                        )}
-
-                        <label htmlFor={option._id} style={{ flexGrow: 1 }}>
-                            {option.text}
-                        </label>
-
-                        <span style={{ fontWeight: 'bold' }}>
-                            Votes: {option.votes}
-                        </span>
-                    </div>
-                ))}
-            </div>
-
-            {!hasVoted ? (
-                <button onClick={handleVoteSubmit}></button>):(
-                <div>
-                    <p>Thank you! Your vote has been recorded.</p>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                
+                <div className="poll-meta">
+                    {poll.requiresAuth && <p>🔒 Requires Login</p>}
                 </div>
-            )}
+
+                <div className="poll-options">
+                    {poll.options.map((option) => (
+                        <div key={option._id} className={`poll-option ${selectedOptionId === option._id ? 'selected' : ''}`}>
+                            {!hasVoted && (
+                                <input 
+                                    type="radio" 
+                                    id={option._id}
+                                    name="pollOption" 
+                                    value={option._id}
+                                    onChange={(e) => setSelectedOptionId(e.target.value)}
+                                />
+                            )}
+
+                            <label htmlFor={option._id}>
+                                {option.text}
+                            </label>
+
+                            <span className="poll-option-votes">
+                                {option.votes}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="poll-actions">
+                    {!hasVoted ? (
+                        <button className="vote-submit-btn" onClick={handleVoteSubmit}>Submit Vote</button>
+                    ) : (
+                        <div className="poll-success">
+                            <div className="poll-success-icon">✓</div>
+                            <p>Thank you! Your vote has been recorded.</p>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     )
 }
