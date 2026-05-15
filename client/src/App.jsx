@@ -5,6 +5,8 @@ import PollCarousel from './components/PollCarousel';
 import Security from './components/Security';
 import Login from './sign-up/Login.jsx';
 import Register from './sign-up/Register.jsx';
+import Dashboard from './dashboard/dashboard.jsx';
+import CreatePoll from './dashboard/createPoll.jsx'
 import { useState } from 'react';
 
 export default function App() {
@@ -32,6 +34,8 @@ export default function App() {
       }
       {currentPage === 'login' && <Login navigateTo={navigateTo} user={user} setUser={setUser} />}
       {currentPage === 'signup' && <Register navigateTo={navigateTo} />}
+      {currentPage === 'dashboard' && <Dashboard navigateTo={navigateTo} /> }
+      {currentPage === 'createPoll' && <CreatePoll navigateTo={navigateTo} />}
       
     </div>
   

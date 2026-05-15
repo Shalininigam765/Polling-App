@@ -13,8 +13,11 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 
         const decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN)
 
+        req.user = decodedToken
+        next()
+
     }
     catch(err){
-
+        return res.status(403).json({ error: "Invalid token." });
     }
 })
